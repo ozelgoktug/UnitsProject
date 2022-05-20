@@ -1,0 +1,126 @@
+﻿@model GoMarketWebNetCoreAppMvc.Models.PROJECT
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">PROJECTID</th>
+                <th scope="col">PROJECTNAME</th>
+                <th scope="col">PROJECTDESC</th>
+                <th scope="col">PROJECTDATE</th>
+                <th scope="col">PROJECTMULTIPLE</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">@Model.PROJECTINFO.PROJECTID</th>
+                <td>@Model.PROJECTINFO.PROJECTNAME</td>
+                <td>@Model.PROJECTINFO.PROJECTDESC</td>
+                <td>@Model.PROJECTINFO.PROJECTDATE</td>
+                <td>@Model.PROJECTINFO.PROJECTMULTIPLE</td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    @foreach (var unit in Model.UNITS)
+    {
+        <h4 class="alert alert-primary">----- UNIT Informations------</h4>
+        <p class="alert alert-warning">
+            @unit.UNIQUECODE UNIQUECODE numaralı
+            UNIT içerisinde @unit.DOORs.Count adet DOORS, @unit.HANDLEs.Count adet HANDLES,
+            @unit.PLINTHLEGs.Count adet PLINTHLEGS bulunmaktadır.
+        </p>
+        <p>UniqueCode: @unit.UNIQUECODE</p>
+        <p>Group: @unit.GROUP</p>
+        <p>Model: @unit.MODEL</p>
+
+        foreach (var door in unit.DOORs)
+        {
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-secondary">DOOR</button>
+            </div>
+            <p>Modul: @door.MODUL</p>
+            <p>Group: @door.GROUP</p>
+            <p>Model: @door.MODEL</p>
+        }
+        foreach (var handle in unit.HANDLEs)
+        {
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-warning">HANDLE</button>
+            </div>
+
+            <p>Modul: @handle.MODUL</p>
+            <p>Group: @handle.GROUP</p>
+            <p>Model: @handle.MODEL</p>
+        }
+        foreach (var plinthleg in unit.PLINTHLEGs)
+        {
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-info">PLINTHLEG</button>
+            </div>
+            <p>Modul: @plinthleg.MODUL</p>
+            <p>Group: @plinthleg.GROUP</p>
+            <p>Model: @plinthleg.MODEL</p>
+        }
+
+        <br />
+    }
+
+    @*Hiçbir UNIT ile ilişkisi olmayan komponentlerin listelenmesi*@
+    <p class="alert alert-danger">
+        Hiçbir UNIQUECODE ile eşleşmeyen komponentlerin listesi
+    </p>
+    @{
+
+        foreach (var door in Model.DOORS)
+        {
+            if (door.HasParent == false)
+            {
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-secondary">DOOR</button>
+                </div>
+                <p>Modul: @door.MODUL</p>
+                <p>Group: @door.GROUP</p>
+                <p>Model: @door.MODEL</p>
+            }
+
+        }
+        foreach (var handle in Model.HANDLES)
+        {
+            if (handle.HasParent == false)
+            {
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-warning">HANDLE</button>
+                </div>
+
+                <p>Modul: @handle.MODUL</p>
+                <p>Group: @handle.GROUP</p>
+                <p>Model: @handle.MODEL</p>
+            }
+        }
+        foreach (var plinthleg in Model.PLINTHLEGS)
+        {
+            if (plinthleg.HasParent == false)
+            {
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-info">PLINTHLEG</button>
+                </div>
+                <p>Modul: @plinthleg.MODUL</p>
+                <p>Group: @plinthleg.GROUP</p>
+                <p>Model: @plinthleg.MODEL</p>
+            }
+        }
+
+        <br />
+    }
+
+
+</body>
+</html>
